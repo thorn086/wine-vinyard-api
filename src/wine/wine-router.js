@@ -1,7 +1,9 @@
 const express = require('express')
 const WineService = require('./wine-service')
 const wineRouter = express.Router()
+const path = require('path')
 const xss = require('xss')
+const {requireAuth} = require('../middleware/jwt-auth')
 const bodyParser=express.json()
 
 const sanitizeWine=wine=>({
@@ -24,7 +26,28 @@ wineRouter
         })
         .catch(next)
     })
-    //const {winecat, date, company_name, name, content, rating}=req.body
+    .post(requireAuth, bodyParser, (req,res,next)=>{
+    const {winecat, date, company_name, name, content, rating, user_id}=req.body
+    const newWine = {winecat, date, company_name, name, content, rating, user_id}
+    
+    for(const [key, value]of Object.entries(newWine)){
+        if(value== null){
+            return res.status(400).json({
+                error: {message: `Missing '${key}' in request`}
+            })
+        }
+    }
+    WineService.addWine(req.app.get('db'), newWine)
+    .then(wine=>{
+        res
+        .status(201)
+        .location(path.posix.join(req.originalUrl, `/${wine.id}`))
+        .json(sanitizeWine(wine))
+    })
+    .catch(next)
+})
+
+
 wineRouter
      .route('/:id')
      .all((req,res,next)=>{

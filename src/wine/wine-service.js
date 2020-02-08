@@ -13,6 +13,14 @@ const WineService={
         return knex('wines')
         .where('id',id)
         .delete()
+    },
+    addWine(knex,newWine){
+        return knex
+        .insert(newWine)
+        .into('wines')
+        .returning('*')
+        .then(rows=>{
+            return rows[0]})
     }
 }
 

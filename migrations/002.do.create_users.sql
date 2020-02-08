@@ -6,4 +6,9 @@ CREATE TABLE wine_users (
   password TEXT NOT NULL,
   date_created TIMESTAMP NOT NULL DEFAULT now(),
   date_modified TIMESTAMP
-)
+);
+
+ALTER TABLE wines
+  ADD COLUMN
+    author INTEGER REFERENCES wine_users(id)
+    ON DELETE SET NULL;
