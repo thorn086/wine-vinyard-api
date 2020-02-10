@@ -1,6 +1,8 @@
 const WineService={
     getAllWines(knex){
-        return knex.select('*').from('wines')
+        return knex
+        .select('*')
+        .from('wines')
     },
 
     getWineId(knex, id){

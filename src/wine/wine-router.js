@@ -13,7 +13,8 @@ const sanitizeWine=wine=>({
     company_name:xss(wine.company_name),
     name:xss(wine.name),
     content:xss(wine.content),
-    rating:wine.rating
+    rating:wine.rating,
+    author:wine.author
 
 })
 
@@ -27,9 +28,11 @@ wineRouter
         .catch(next)
     })
     .post(requireAuth, bodyParser, (req,res,next)=>{
-    const {winecat, date, company_name, name, content, rating, user_id}=req.body
-    const newWine = {winecat, date, company_name, name, content, rating, user_id}
-    
+    const {winecat, date, company_name, name, content, rating}=req.body
+    const user = req.user.id
+    console.log(user)
+    const newWine = {winecat, date, company_name, name, content, rating, author:user}
+    console.log(newWine)
     for(const [key, value]of Object.entries(newWine)){
         if(value== null){
             return res.status(400).json({
@@ -68,7 +71,6 @@ wineRouter
     })
     .delete(bodyParser, (req,res,next)=>{
         const {id}=req.params
-
         WineService.deleteWine(req.app.get('db'),id)
         .then(affected=>{
             res.status(204).end()
