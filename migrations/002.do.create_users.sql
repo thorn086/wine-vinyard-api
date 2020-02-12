@@ -10,5 +10,5 @@ CREATE TABLE wine_users (
 
 ALTER TABLE wines
   ADD COLUMN
-    author IDENTITY REFERENCES wine_users(id)
+    author INTEGER REFERENCES wine_users(id)
     ON DELETE SET NULL;
