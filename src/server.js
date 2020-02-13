@@ -1,10 +1,10 @@
 const knex = require('knex')
 const app = require('./app')
-const { PORT,CLIENT_ORIGIN} = require('./config')
+const { PORT,DATABASE_URL} = require('./config')
 
 const db =knex({
   client: 'pg',
-  connection: CLIENT_ORIGIN
+  connection: DATABASE_URL
 })
 app.set('db', db)
 
