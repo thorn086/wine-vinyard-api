@@ -7,6 +7,7 @@ const { NODE_ENV} = require('./config')
 const errorHandler = require('./error-handler')
 const app = express()
 const wineRouter =require('./wine/wine-router')
+const {client_ORIGIN}=require('./config')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
 const morganSetting = (NODE_ENV === 'production' 
@@ -15,7 +16,9 @@ const morganSetting = (NODE_ENV === 'production'
 
 app.use(morgan(morganSetting))
 app.use(helmet())
-app.use(cors())
+app.use(cors(
+  {origin: client_ORIGIN}
+))
 
 app.get('/', (req, res) => {
   res.send('Hello, world!')
