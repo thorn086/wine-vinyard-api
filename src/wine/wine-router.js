@@ -30,9 +30,9 @@ wineRouter
     .post(requireAuth, bodyParser, (req,res,next)=>{
     const {winecat, date, company_name, name, content, rating}=req.body
     const user = req.user.id
-    console.log(user)
+   
     const newWine = {winecat, date, company_name, name, content, rating, author:user}
-    console.log(newWine)
+  
     for(const [key, value]of Object.entries(newWine)){
         if(value== null){
             return res.status(400).json({

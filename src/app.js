@@ -17,9 +17,13 @@ const morganSetting = (NODE_ENV === 'production'
 app.use(morgan(morganSetting))
 app.use(helmet())
 app.use(cors(
-  {origin: CLIENT_ORIGIN}
+   {origin: CLIENT_ORIGIN}
 ))
+  
 
+ 
+
+console.log(CLIENT_ORIGIN)
 app.get('/', (req, res) => {
   res.send('Hello, world!')
 })
