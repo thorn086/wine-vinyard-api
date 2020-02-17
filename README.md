@@ -3,7 +3,6 @@
 This RESTful API controls all interactions between the front end Wine Vinyard app and the database.
 
 ![Wine Vinyard Home Page](src/img/home.png)
-<img src="src/img/home.png" width="200">
 
 ## Technology
 
