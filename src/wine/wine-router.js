@@ -54,7 +54,6 @@ wineRouter
 wineRouter
      .route('/:id')
      .all((req,res,next)=>{
-        console.log(req.params.id)
         WineService.getWineId(req.app.get('db'), req.params.id)
         .then(wine=>{
             if(!wine){
