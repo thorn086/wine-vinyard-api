@@ -133,7 +133,7 @@ GET
 
 ## URL
 ```javascript
-/api/wines
+/api/wine
 ```
 * Method
 ```
