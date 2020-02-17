@@ -1,26 +1,207 @@
-# Express Boilerplate!
+# Wine Vinyard API
 
-This is a boilerplate project used for starting new projects!
+This RESTful API controls all interactions between the front end Wine Vinyard app and the database.
 
-## Set up
+![Wine Vinyard Home Page]('./src/img/home.png)
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+## Technology
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+This API was built using Node, Express and Knex. The database was built using PostgreSQL.
 
-## Scripts
+## Client Repo
 
-Start the application `npm start`
+https://github.com/thorn086/wine-vinyard
 
-Start nodemon for the application `npm run dev`
+## Live Site
 
-Run the tests `npm test`
+https://wine-vinyard-app.now.sh/
 
-## Deploying
+# Using this API
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+## Add User
+Adds user to database
+
+## URL
+```javascript
+/api/users
+```
+* Method
+```
+POST
+```
+* Body Params\
+  First name\
+  Last name\
+  User email\
+  Password
+
+* Success Response\
+  Code: 201
+
+* Error Response\
+  Code: 400
+
+* Sample Call
+  ```javascript
+  fetch(`${API.API_ENDPOINT}/users`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(user),
+  })
+  ```
+
+***
+
+## Login
+Authenticates user login credentials
+
+## URL
+```javascript
+/api/auth
+```
+* Method
+```
+POST
+```
+* Body Params\
+  User email\
+  Password
+
+* Success Response\
+  Code: 200\
+  Content:
+  ```
+  {
+    authToken: 'authToken',
+    userId: 'userId'
+  }
+  ```
+
+* Error Response\
+  Code: 400
+
+* Sample Call
+  ```javascript
+  fetch(`${API.API_ENDPOINT}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ user_email, password }),
+  })
+  ```
+
+***
+
+## URL
+```javascript
+/api/wines
+```
+* Method
+```
+GET
+```
+* Body Params
+  None
+
+* Success Response\
+  Code: 200\
+  Content:
+  ```
+  {
+    wines: 'wines'
+  }
+  ```
+
+* Error Response\
+  Code: 400
+
+* Sample Call
+  ```javascript
+  fetch(`${API.API_ENDPOINT}/wine`)
+    .then((winesRes) => {
+      if (!winesRes.ok) {
+        throw new Error(winesRes.statusText)
+      }
+      return winesRes.json()
+    })
+  ```
+
+***
+
+## URL
+```javascript
+/api/wines
+```
+* Method
+```
+POST
+```
+* Body Params\
+  winecat\
+  date\
+  company_name\
+  name\
+  content\
+  rating
+
+* Success Response\
+  Code: 201
+
+* Error Response\
+  Code: 400
+
+* Sample Call
+  ```javascript
+  fetch(`${API.API_ENDPOINT}/wine`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'authorization': `bearer ${TokenService.getAuthToken()}`,
+    },
+    body: JSON.stringify(createNewWine),
+  })
+  ```
+***
+
+## URL
+```javascript
+/api/wine/id
+```
+* Method
+```
+DELETE
+```
+
+* URL Params\
+  ```
+  wines=[wine item id]
+  ```
+
+* Body Params\
+  None
+
+* Success Response\
+  Code: 204
+
+* Error Response\
+  Code: 404\
+  Content:
+  ```
+  {
+    error: `wine item doesn't exist`
+  }
+  ```
+
+* Sample Call
+  ```javascript
+  fetch(`${API.API_ENDPOINT}/wine/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+      'authorization': `bearer ${TokenService.getAuthToken()}`,
+    },
+  })
+  ```

@@ -21,6 +21,8 @@ app.use(cors(
 ))
   
 
+  
+
  
 
 console.log(CLIENT_ORIGIN)
